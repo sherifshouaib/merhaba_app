@@ -1,8 +1,8 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:fluent_ui/fluent_ui.dart';
 
-class RowLogReg extends fluent.StatelessWidget {
-  const RowLogReg({super.key, required this.textButton});
+class RowLogCreateAcc extends fluent.StatelessWidget {
+  const RowLogCreateAcc({super.key, required this.textButton});
   final String textButton;
 
   @override

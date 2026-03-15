@@ -16,7 +16,7 @@ final String buttonText;
       children: [
         TextButton(
           onPressed: () {
-            GoRouter.of(context).push(AppRouter.kRegisterView);
+            GoRouter.of(context).push(AppRouter.kCreateAccountView);
           },
           child:  Text(buttonText),
         ),
