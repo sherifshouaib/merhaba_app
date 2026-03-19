@@ -6,6 +6,7 @@ import 'package:merhaba/core/routing/app_router.dart';
 import 'package:merhaba/core/utils/providers/bottom_navbar_view_provider.dart';
 import 'package:merhaba/core/utils/providers/login_provider.dart';
 import 'package:merhaba/core/utils/providers/create_account_provider.dart';
+import 'package:merhaba/core/utils/providers/profile_tab_provider.dart';
 import 'package:merhaba/firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -43,6 +44,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => CreateAccountProvider()),
         ChangeNotifierProvider(create: (_) => BottomNavBarViewProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileTabProvider()),
       ],
       child: const MyApp(),
     ),

@@ -71,19 +71,19 @@ class BottomNavBarViewBody extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8),
       backgroundColor: Colors.grey.shade900,
       isVisible: bottomNavBarViewProvider.isVisible,
-      animationSettings: const NavBarAnimationSettings(
-        navBarItemAnimation: ItemAnimationSettings(
-          // Navigation Bar's items animation properties.
-          duration: Duration(milliseconds: 100),
-          curve: Curves.ease,
-        ),
-        screenTransitionAnimation: ScreenTransitionAnimationSettings(
-          // Screen transition animation on change of selected tab.
-          animateTabTransition: true,
-          duration: Duration(milliseconds: 100),
-          screenTransitionAnimationType: ScreenTransitionAnimationType.fadeIn,
-        ),
-      ),
+      // animationSettings: const NavBarAnimationSettings(
+      //   navBarItemAnimation: ItemAnimationSettings(
+      //     // Navigation Bar's items animation properties.
+      //     duration: Duration(milliseconds: 100),
+      //     curve: Curves.ease,
+      //   ),
+      //   screenTransitionAnimation: ScreenTransitionAnimationSettings(
+      //     // Screen transition animation on change of selected tab.
+      //     animateTabTransition: true,
+      //     duration: Duration(milliseconds: 100),
+      //     screenTransitionAnimationType: ScreenTransitionAnimationType.fadeIn,
+      //   ),
+      // ),
       confineToSafeArea: true,
       navBarHeight: kBottomNavigationBarHeight,
       navBarStyle:
