@@ -13,6 +13,7 @@ import 'package:merhaba/core/utils/providers/app_settings_provider.dart';
 import 'package:merhaba/core/utils/providers/bottom_navbar_view_provider.dart';
 import 'package:merhaba/core/utils/providers/login_provider.dart';
 import 'package:merhaba/core/utils/providers/create_account_provider.dart';
+import 'package:merhaba/core/utils/providers/new_post_provider.dart';
 import 'package:merhaba/core/utils/providers/profile_tab_provider.dart';
 import 'package:merhaba/firebase_options.dart';
 import 'package:provider/provider.dart';
@@ -107,6 +108,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => BottomNavBarViewProvider()),
         ChangeNotifierProvider(create: (_) => ProfileTabProvider()),
         ChangeNotifierProvider(create: (_) => AppSettingsProvider()),
+        ChangeNotifierProvider(create: (_) => NewPostProvider()),
       ],
       child: const Merhaba(),
     ),

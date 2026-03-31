@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:merhaba/features/home/presentation/views/new_post_view.dart';
 import 'package:merhaba/features/login/presentation/manager/views/forget_password_view.dart';
 import 'package:merhaba/features/login/presentation/manager/views/update_password_view.dart';
 import 'package:merhaba/features/profile/presentation/views/app_settings_view.dart';
@@ -16,6 +17,7 @@ abstract class AppRouter {
   static const kAppSettingsView = '/appSettingsView';
   static const kForgotPasswordView = '/forgotPasswordView';
   static const kUpdatePasswordView = '/updatePasswordView';
+  static const kNewPostView = '/newPostView';
 
   static final router = GoRouter(
     routes: [
@@ -31,36 +33,17 @@ abstract class AppRouter {
         builder: (context, state) => AppSettingsView(),
       ),
       GoRoute(
-        path: kForgotPasswordView ,
+        path: kForgotPasswordView,
         builder: (context, state) => const ForgotPasswordView(),
       ),
-       GoRoute(
-        path: kUpdatePasswordView ,
+      GoRoute(
+        path: kUpdatePasswordView,
         builder: (context, state) => const UpdatePasswordView(),
+      ),
+      GoRoute(
+        path: kNewPostView,
+        builder: (context, state) => const NewPostView(),
       ),
     ],
   );
 }
-
-
-
-// class AppRouter {    
-  
-//    // you can use gorouter or generaterouter to navigate between screens
-//    //,but omar ahmed used generaterouter and said it's up to you 
-
-//   Route generateRoute(RouteSettings settings){
-//     switch (settings.name) {
-//       // case Routes.loginScreen:
-//       //   return MaterialPageRoute(builder: (_) => const LoginScreen());
-//       default:
-//         return MaterialPageRoute(
-//           builder: (_) => Scaffold(
-//             body: Center(
-//               child: Text('No route defined for ${settings.name}'),
-//             ),
-//           ),
-//         );
-//     }
-//   }
-// }
