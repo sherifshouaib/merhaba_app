@@ -173,7 +173,10 @@ class ProfileTabView extends StatelessWidget {
             verticalSpace(10),
             Divider(),
             verticalSpace(10),
-            ProfileOptionsInkWell(text: AppLocale.account_settings_label.getString(context), ontap: () {}),
+            ProfileOptionsInkWell(
+              text: AppLocale.account_settings_label.getString(context),
+              ontap: () {},
+            ),
             verticalSpace(5),
             ProfileOptionsInkWell(
               text: AppLocale.app_settings_label.getString(context),
@@ -189,10 +192,16 @@ class ProfileTabView extends StatelessWidget {
             ),
 
             verticalSpace(5),
-            ProfileOptionsInkWell(text: AppLocale.preferences_label.getString(context), ontap: () {}),
+            ProfileOptionsInkWell(
+              text: AppLocale.preferences_label.getString(context),
+              ontap: () {},
+            ),
 
             verticalSpace(5),
-            ProfileOptionsInkWell(text: AppLocale.privacy_label.getString(context), ontap: () {}),
+            ProfileOptionsInkWell(
+              text: AppLocale.privacy_label.getString(context),
+              ontap: () {},
+            ),
 
             verticalSpace(10),
             Divider(),
