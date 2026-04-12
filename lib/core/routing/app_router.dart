@@ -42,7 +42,7 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kNewPostView,
-        builder: (context, state) => const NewPostView(),
+        builder: (context, state) =>  NewPostView(),
       ),
     ],
   );

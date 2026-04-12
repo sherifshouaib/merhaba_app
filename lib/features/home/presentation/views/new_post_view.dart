@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -16,7 +19,8 @@ import 'package:merhaba/main_development.dart';
 import 'package:provider/provider.dart';
 
 class NewPostView extends StatelessWidget {
-  const NewPostView({super.key});
+  NewPostView({super.key});
+  final CarouselSliderController _controller = CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {
@@ -133,6 +137,90 @@ class NewPostView extends StatelessWidget {
                     maxLines: null,
                   ),
 
+                  newPostProvider.photos.isEmpty
+                      ? Container()
+                      : Container(
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          child: Column(
+                            children: [
+                              CarouselSlider(
+                                items: newPostProvider.photos
+                                    .map(
+                                      (item) => CachedNetworkImage(
+                                        imageUrl: item["url"].toString(),
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: imageProvider,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                        placeholder: (context, url) => Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Center(child: Icon(Icons.error)),
+                                      ),
+                                    )
+                                    .toList(),
+                                carouselController: _controller,
+                                options: CarouselOptions(
+                                  autoPlay: true,
+                                  enlargeCenterPage: true,
+                                  aspectRatio: 2.0,
+                                  onPageChanged: (index, reason) {
+                                    // setState(() {
+                                    //   _current = index;
+                                    // });
+                                    newPostProvider.setCurrentPhotoIndex(index);
+                                  },
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: newPostProvider.photos
+                                    .asMap()
+                                    .entries
+                                    .map((entry) {
+                                      return GestureDetector(
+                                        onTap: () => _controller.animateToPage(
+                                          entry.key,
+                                        ),
+                                        child: Container(
+                                          width: 12.0,
+                                          height: 12.0,
+                                          margin: EdgeInsets.symmetric(
+                                            vertical: 8.0,
+                                            horizontal: 4.0,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color:
+                                                (Theme.of(context).brightness ==
+                                                            Brightness.dark
+                                                        ? Colors.white
+                                                        : Colors.black)
+                                                    .withValues(
+                                                      alpha:
+                                                          newPostProvider
+                                                                  .currentPhotoIndex ==
+                                                              entry.key
+                                                          ? 0.9
+                                                          : 0.4,
+                                                    ),
+                                          ),
+                                        ),
+                                      );
+                                    })
+                                    .toList(),
+                              ),
+                            ],
+                          ),
+                        ),
+
                   Container(
                     margin: EdgeInsets.only(top: 20),
                     padding: EdgeInsets.symmetric(vertical: 5),
@@ -151,10 +239,6 @@ class NewPostView extends StatelessWidget {
                             await showDialog<String>(
                               context: context,
                               builder: (context) => fluent.ContentDialog(
-                                // title: const Text('Change Profile Picture ?'),
-                                // content: const Text(
-                                //   'Choose the source that you want to get the new picture from',
-                                // ),
                                 actions: [
                                   FilledButton(
                                     style: ButtonStyle(
@@ -178,8 +262,7 @@ class NewPostView extends StatelessWidget {
                                           await PostsController.uploadPostMedia(
                                             File(file.path),
                                           );
-                                        print(uploadRes);
-
+                                      print(uploadRes);
 
                                       if (uploadRes["result"] == true) {
                                         var url = uploadRes["url"];
@@ -196,43 +279,6 @@ class NewPostView extends StatelessWidget {
                                       }
 
                                       Navigator.of(context).pop();
-
-                                      // if (file != null) {
-                                      //   //    profileTabProvider.toggleLoading();
-                                      //   try {
-                                      //     String originalFilename = path
-                                      //         .basename(file.path);
-                                      //     String extension = path.extension(
-                                      //       file.path,
-                                      //     );
-                                      //     String fileName =
-                                      //         "${DateTime.now().toIso8601String().replaceAll('.', '').replaceAll(' ', '')}_$originalFilename";
-                                      //     //  debugPrint(fileName);
-
-                                      //     final String fullPath = await Supabase
-                                      //         .instance
-                                      //         .client
-                                      //         .storage
-                                      //         .from('Users')
-                                      //         .upload(
-                                      //           fileName,
-                                      //           File(file.path),
-                                      //         );
-
-                                      //     final String url = await Supabase
-                                      //         .instance
-                                      //         .client
-                                      //         .storage
-                                      //         .from("Users")
-                                      //         .getPublicUrl(fileName);
-                                      //     await profileTabProvider
-                                      //         .updateUserProfilePicture(url);
-                                      //     Navigator.of(context).pop();
-                                      //   } catch (e) {
-                                      //     debugPrint(e.toString());
-                                      //   }
-                                      //   // profileTabProvider.toggleLoading();
-                                      // }
                                     },
 
                                     child: Text(
@@ -274,44 +320,6 @@ class NewPostView extends StatelessWidget {
                                         }
                                       }
                                       Navigator.of(context).pop();
-
-                                      // if (file != null) {
-                                      // if (file != null) {
-                                      //   //    profileTabProvider.toggleLoading();
-                                      //   try {
-                                      //     String originalFilename = path
-                                      //         .basename(file.path);
-                                      //     String extension = path.extension(
-                                      //       file.path,
-                                      //     );
-                                      //     String fileName =
-                                      //         "${DateTime.now().toIso8601String().replaceAll('.', '').replaceAll(' ', '')}_$originalFilename";
-                                      //     //  debugPrint(fileName);
-
-                                      //     final String fullPath = await Supabase
-                                      //         .instance
-                                      //         .client
-                                      //         .storage
-                                      //         .from('Users')
-                                      //         .upload(
-                                      //           fileName,
-                                      //           File(file.path),
-                                      //         );
-
-                                      //     final String url = await Supabase
-                                      //         .instance
-                                      //         .client
-                                      //         .storage
-                                      //         .from("Users")
-                                      //         .getPublicUrl(fileName);
-                                      //     await profileTabProvider
-                                      //         .updateUserProfilePicture(url);
-                                      //     Navigator.of(context).pop();
-                                      //   } catch (e) {
-                                      //     debugPrint(e.toString());
-                                      //   }
-                                      //   // profileTabProvider.toggleLoading();
-                                      // }
                                     },
                                   ),
                                 ],

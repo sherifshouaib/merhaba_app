@@ -14,6 +14,14 @@ class NewPostProvider with ChangeNotifier {
 
   List<Map<String, dynamic>> get photos => _photos;
 
+  int _currentPhotoIndex = 0;
+  int get currentPhotoIndex => _currentPhotoIndex;
+
+  setCurrentPhotoIndex(int value) {
+    _currentPhotoIndex = value;
+    notifyListeners();
+  }
+
   addNewPhoto(Map<String, dynamic> data) {
     _photos.add(data);
     notifyListeners();

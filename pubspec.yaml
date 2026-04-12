@@ -31,6 +31,7 @@ dependencies:
   adaptive_theme: ^3.7.2
   flutter_localization: ^0.3.3
   app_links: ^7.0.0
+  carousel_slider: ^5.1.2
 
   
 dev_dependencies:
