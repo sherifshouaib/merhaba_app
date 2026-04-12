@@ -38,6 +38,7 @@ class ProfileTabView extends StatelessWidget {
           physics: const ClampingScrollPhysics(),
           children: [
             verticalSpace(20),
+
             InkWell(
               onTap: () async {
                 await showDialog<String>(
@@ -143,6 +144,7 @@ class ProfileTabView extends StatelessWidget {
                   ),
                 );
               },
+
               child: CustomProfilePhoto(profileTabProvider: profileTabProvider),
             ),
 
