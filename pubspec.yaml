@@ -32,6 +32,7 @@ dependencies:
   flutter_localization: ^0.3.3
   app_links: ^7.0.0
   carousel_slider: ^5.1.2
+  flick_video_player: ^0.9.0
 
   
 dev_dependencies:
