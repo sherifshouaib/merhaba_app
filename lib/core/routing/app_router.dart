@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:merhaba/features/home/presentation/views/location_viewer_view.dart';
 import 'package:merhaba/features/home/presentation/views/new_post_view.dart';
 import 'package:merhaba/features/login/presentation/manager/views/forget_password_view.dart';
 import 'package:merhaba/features/login/presentation/manager/views/update_password_view.dart';
@@ -18,6 +19,7 @@ abstract class AppRouter {
   static const kForgotPasswordView = '/forgotPasswordView';
   static const kUpdatePasswordView = '/updatePasswordView';
   static const kNewPostView = '/newPostView';
+  static const klocationViewerView = '/locationViewerView';
 
   static final router = GoRouter(
     routes: [
@@ -28,6 +30,11 @@ abstract class AppRouter {
         builder: (context, state) => CreateAccountView(),
       ),
       GoRoute(path: kHomeView, builder: (context, state) => BottomNavBarView()),
+      GoRoute(
+        path: klocationViewerView,
+        builder: (context, state) => LocationViewerView(),
+      ),
+
       GoRoute(
         path: kAppSettingsView,
         builder: (context, state) => AppSettingsView(),
@@ -40,10 +47,7 @@ abstract class AppRouter {
         path: kUpdatePasswordView,
         builder: (context, state) => const UpdatePasswordView(),
       ),
-      GoRoute(
-        path: kNewPostView,
-        builder: (context, state) =>  NewPostView(),
-      ),
+      GoRoute(path: kNewPostView, builder: (context, state) => NewPostView()),
     ],
   );
 }

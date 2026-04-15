@@ -17,6 +17,15 @@ class NewPostProvider with ChangeNotifier {
   int _currentPhotoIndex = 0;
   int get currentPhotoIndex => _currentPhotoIndex;
 
+  Map<String, dynamic> _locationData = {};
+  Map<String, dynamic> get locationData => _locationData;
+
+  setLocationData(Map<String, dynamic> value) {
+    _locationData = value;
+
+    notifyListeners();
+  }
+
   setCurrentPhotoIndex(int value) {
     _currentPhotoIndex = value;
     notifyListeners();

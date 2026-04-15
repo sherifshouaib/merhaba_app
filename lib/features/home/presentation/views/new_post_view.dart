@@ -8,11 +8,13 @@ import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:merhaba/core/helper/spacing.dart';
 import 'package:merhaba/core/locale/app_locale.dart';
 import 'package:merhaba/core/routing/app_router.dart';
 import 'package:merhaba/core/utils/controllers/posts_controller.dart';
+import 'package:merhaba/core/utils/providers/location_viewer_provider.dart';
 import 'package:merhaba/core/utils/providers/new_post_provider.dart';
 import 'package:merhaba/core/utils/providers/profile_tab_provider.dart';
 import 'package:merhaba/features/profile/presentation/views/widgets/custom_profile_photo.dart';
@@ -121,6 +123,21 @@ class NewPostView extends StatelessWidget {
                       ),
                     ],
                   ),
+                  verticalSpace(5),
+                  newPostProvider.locationData.isEmpty
+                      ? Container()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: () {},
+                              icon: Icon(Icons.location_pin),
+                              label: Text(
+                                AppLocale.location_label.getString(context),
+                              ),
+                            ),
+                          ],
+                        ),
 
                   verticalSpace(30),
                   TextFormField(
@@ -179,10 +196,12 @@ class NewPostView extends StatelessWidget {
                                               child: FlickVideoPlayer(
                                                 flickManager: FlickManager(
                                                   videoPlayerController:
-                                                      VideoPlayerController
-                                                          .networkUrl(
-                                                  Uri.parse(item["url"].toString())
-                                                  ),
+                                                      VideoPlayerController.networkUrl(
+                                                        Uri.parse(
+                                                          item["url"]
+                                                              .toString(),
+                                                        ),
+                                                      ),
                                                 ),
                                               ),
                                             ),
@@ -472,7 +491,34 @@ class NewPostView extends StatelessWidget {
                         ListTile(
                           dense: true,
                           trailing: const Icon(Icons.location_pin),
-                          onTap: () {},
+                          onTap: () async {
+                            await GoRouter.of(
+                              context,
+                            ).push(AppRouter.klocationViewerView);
+
+                            final locationViewerProvider =
+                                Provider.of<LocationViewerProvider>(
+                                  context,
+                                  listen: false,
+                                );
+
+                            // print(
+                            //   locationViewerProvider.currentLocation.toMap(),
+                            // );
+
+                            if (locationViewerProvider
+                                        .currentLocation
+                                        .latitude !=
+                                    0 &&
+                                locationViewerProvider
+                                        .currentLocation
+                                        .longitude !=
+                                    0) {
+                              newPostProvider.setLocationData(
+                                locationViewerProvider.currentLocation.toMap(),
+                              );
+                            }
+                          },
                           title: Text(
                             AppLocale.location_label.getString(context),
                             style: TextStyle(
