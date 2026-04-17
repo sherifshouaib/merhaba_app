@@ -124,20 +124,62 @@ class NewPostView extends StatelessWidget {
                     ],
                   ),
                   verticalSpace(5),
-                  newPostProvider.locationData.isEmpty
-                      ? Container()
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            ElevatedButton.icon(
-                              onPressed: () {},
-                              icon: Icon(Icons.location_pin),
-                              label: Text(
-                                AppLocale.location_label.getString(context),
+
+                  Container(
+                    height: 30,
+                    child: ListView(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      physics: ClampingScrollPhysics(),
+                      children: [
+                        newPostProvider.locationData.isEmpty
+                            ? Container()
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.location_pin),
+                                    label: Text(
+                                      AppLocale.location_label.getString(
+                                        context,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
+
+                        newPostProvider.isOccasionSelected
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    label: Text(
+                                      newPostProvider
+                                          .getOccasionsOptions(context)
+                                          .firstWhere(
+                                            (element) =>
+                                                element["value"] ==
+                                                newPostProvider
+                                                    .selectedOccasion,
+                                          )["label"]
+                                          .toString(),
+                                    ),
+                                    icon: newPostProvider
+                                        .getOccasionsOptions(context)
+                                        .firstWhere(
+                                          (element) =>
+                                              element["value"] ==
+                                              newPostProvider.selectedOccasion,
+                                        )["icon"],
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                      ],
+                    ),
+                  ),
 
                   verticalSpace(30),
                   TextFormField(
@@ -383,8 +425,8 @@ class NewPostView extends StatelessWidget {
                         ListTile(
                           dense: true,
                           trailing: const Icon(Icons.video_camera_back),
-                          onTap: () async {
-                            await showDialog<String>(
+                          onTap: () {
+                            showDialog<String>(
                               context: context,
                               builder: (context) => fluent.ContentDialog(
                                 actions: [
@@ -532,7 +574,91 @@ class NewPostView extends StatelessWidget {
                         ListTile(
                           dense: true,
                           trailing: const Icon(Icons.announcement),
-                          onTap: () {},
+                          onTap: () {
+                            showDialog<String>(
+                              context: context,
+                              builder: (context) => fluent.ContentDialog(
+                                title: Text(
+                                  AppLocale.occasion_label.getString(context),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                content: Consumer<NewPostProvider>(
+                                  builder: (context, myProvider, child) {
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+
+                                          children: [
+                                            fluent.ComboBox<String>(
+                                              value:
+                                                  myProvider.selectedOccasion,
+                                              items: myProvider
+                                                  .getOccasionsOptions(context)
+                                                  .map<
+                                                    fluent.ComboBoxItem<String>
+                                                  >((e) {
+                                                    return fluent.ComboBoxItem<
+                                                      String
+                                                    >(
+                                                      value: e["value"]
+                                                          .toString(),
+                                                      child: Text(
+                                                        e["label"].toString(),
+                                                      ),
+                                                    );
+                                                  })
+                                                  .toList(),
+                                              onChanged: (value) {
+                                                if (value == null) {
+                                                  return;
+                                                }
+
+                                                myProvider.setSelectedOccasion(
+                                                  value,
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                                actions: [
+                                  FilledButton(
+                                    // style: ButtonStyle(
+                                    //   backgroundColor: WidgetStateProperty.all(
+                                    //     Colors.purple,
+                                    //   ),
+                                    // ),
+                                    onPressed: () async {
+                                      GoRouter.of(context).pop();
+                                    },
+
+                                    child: Text(
+                                      AppLocale.confirm_label.getString(
+                                        context,
+                                      ),
+                                    ),
+                                  ),
+                                  FilledButton(
+                                    child: Text(
+                                      AppLocale.cancel_label.getString(context),
+                                    ),
+                                    onPressed: () async {
+                                      GoRouter.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
                           title: Text(
                             AppLocale.occasion_label.getString(context),
                             style: TextStyle(
