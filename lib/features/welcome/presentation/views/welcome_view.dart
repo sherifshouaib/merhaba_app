@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:merhaba/core/routing/app_router.dart';
 import 'package:merhaba/core/utils/controllers/auth_controller.dart';
+import 'package:merhaba/core/utils/funcs/getPostsAndNavigate_method.dart';
+import 'package:merhaba/core/utils/providers/timeline_provider.dart';
 import 'package:merhaba/core/widgets/logo_boarding_light.dart';
+import 'package:provider/provider.dart';
 
 class WelcomeView extends StatefulWidget {
   const WelcomeView({super.key});
@@ -34,8 +37,10 @@ class _WelcomeViewState extends State<WelcomeView> {
     try {
       var res = await AuthController.checkLogin();
       if (res["result"] == true) {
-        context.go(AppRouter.kHomeView);
+        getPostsAndNavigateMethod(context);
       } else {
+
+        
         context.go(AppRouter.kLoginView);
       }
     } catch (e) {
@@ -43,6 +48,8 @@ class _WelcomeViewState extends State<WelcomeView> {
       context.go(AppRouter.kLoginView);
     }
   }
+
+ 
 
   @override
   void initState() {

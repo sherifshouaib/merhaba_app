@@ -22,7 +22,7 @@ class LocationViewerProvider with ChangeNotifier {
       _currentLocation = await _mapcontroller.myLocation();
       notifyListeners();
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 

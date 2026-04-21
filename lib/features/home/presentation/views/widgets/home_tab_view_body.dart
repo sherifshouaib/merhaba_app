@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:merhaba/core/locale/app_locale.dart';
 import 'package:merhaba/core/routing/app_router.dart';
@@ -37,7 +38,7 @@ class HomeTabViewBody extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                verticalSpace(10),
+                verticalSpace(5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -47,8 +48,8 @@ class HomeTabViewBody extends StatelessWidget {
                         AppLocale.whats_on_your_mind_label.getString(context),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic,
-                          fontSize: 18,
+                        //  fontStyle: FontStyle.italic,
+                          fontSize: 14,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -58,11 +59,17 @@ class HomeTabViewBody extends StatelessWidget {
                   ],
                 ),
 
-                SizedBox(height: 10),
+                SizedBox(height: 5),
               ],
             ),
           ),
         ),
+
+Container(
+        height: 2,
+        color: const Color(0x8080DDFF),
+        margin: const EdgeInsets.symmetric(vertical: 5),
+      ).animate().scale(duration: 1200.ms, alignment: Alignment.centerLeft),
       ],
     );
   }

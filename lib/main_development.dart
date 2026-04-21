@@ -17,6 +17,7 @@ import 'package:merhaba/core/utils/providers/login_provider.dart';
 import 'package:merhaba/core/utils/providers/create_account_provider.dart';
 import 'package:merhaba/core/utils/providers/new_post_provider.dart';
 import 'package:merhaba/core/utils/providers/profile_tab_provider.dart';
+import 'package:merhaba/core/utils/providers/timeline_provider.dart';
 import 'package:merhaba/firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -116,6 +117,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => AppSettingsProvider()),
         ChangeNotifierProvider(create: (_) => NewPostProvider()),
         ChangeNotifierProvider(create: (_) => LocationViewerProvider()),
+        ChangeNotifierProvider(create: (_) => TimelineProvider()),
       ],
       child: const Merhaba(),
     ),

@@ -59,7 +59,7 @@ class NewPostProvider with ChangeNotifier {
       }
       GoRouter.of(context).pop();
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       Fluttertoast.showToast(
         msg: AppLocale.something_went_wrong_label.getString(context),
       );

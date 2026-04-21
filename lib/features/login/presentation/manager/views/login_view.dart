@@ -5,7 +5,9 @@ import 'package:merhaba/core/helper/spacing.dart';
 import 'package:merhaba/core/locale/app_locale.dart';
 import 'package:merhaba/core/routing/app_router.dart';
 import 'package:merhaba/core/utils/controllers/auth_controller.dart';
+import 'package:merhaba/core/utils/funcs/getPostsAndNavigate_method.dart';
 import 'package:merhaba/core/utils/providers/login_provider.dart';
+import 'package:merhaba/core/utils/providers/timeline_provider.dart';
 import 'package:merhaba/core/widgets/custom_info_label.dart';
 import 'package:merhaba/core/widgets/logo_boarding_light.dart';
 import 'package:merhaba/core/widgets/row_log_reg.dart';
@@ -82,7 +84,13 @@ class LoginView extends StatelessWidget {
                         );
 
                         if (res["result"] == true) {
-                          context.go(AppRouter.kHomeView);
+                          getPostsAndNavigateMethod(context);
+
+                          // final timelineProvider =
+                          //     Provider.of<TimelineProvider>(context);
+                          // timelineProvider.getData();
+
+                          // context.go(AppRouter.kHomeView);
                         } else {
                           Fluttertoast.showToast(
                             msg: res["message"].toString(),

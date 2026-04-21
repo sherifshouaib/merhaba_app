@@ -1,9 +1,22 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:merhaba/core/utils/controllers/auth_controller.dart';
 import 'package:merhaba/main_development.dart';
 import 'package:path/path.dart' as p;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PostsController {
+  static Future<List<Map<String, dynamic>>> getAllPosts() async {
+    try {
+      var res = await Supabase.instance.client.from("posts").select();
+
+      return res;
+    } catch (e) {
+      debugPrint(e.toString());
+      return [];
+    }
+  }
+
   static Future<Map<String, dynamic>> uploadPostMedia(File file) async {
     try {
       String fileName =
@@ -29,7 +42,7 @@ class PostsController {
         "fullPath": fullPath,
       };
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       return {"result": false, "message": e.toString()};
     }
   }
@@ -42,6 +55,26 @@ class PostsController {
         return {"result": false, "message": "Please login again!!"};
       }
 
+      var currentUserDataRes = await AuthController.getCurrentUserData();
+
+      if (currentUserDataRes["result"] == false) {
+        return currentUserDataRes;
+      }
+
+      Map<String, dynamic> currentUserData = Map<String, dynamic>.from(
+        currentUserDataRes["data"] as Map,
+      );
+
+      var userData =
+          currentUserData["data"]["user_metadata"] as Map<String, dynamic>;
+
+      var username = userData["fullName"];
+      var photoUrl = userData["picUrl"] == null
+          ? ""
+          : userData["picUrl"].toString();
+
+      data["username"] = username;
+      data["user_photo"] = photoUrl;
       data["user_id"] = uid;
       data["added_by"] = uid;
       data["updated_by"] = uid;
@@ -52,7 +85,7 @@ class PostsController {
 
       return {"result": true, "message": "Posted successfully ... "};
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       return {"result": false, "message": e.toString()};
     }
   }

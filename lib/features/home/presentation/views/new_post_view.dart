@@ -348,7 +348,7 @@ class NewPostView extends StatelessWidget {
                                           await PostsController.uploadPostMedia(
                                             File(file.path),
                                           );
-                                      print(uploadRes);
+                                      debugPrint(uploadRes.toString());
 
                                       if (uploadRes["result"] == true) {
                                         var url = uploadRes["url"];
@@ -389,7 +389,7 @@ class NewPostView extends StatelessWidget {
                                               File(file.path),
                                             );
 
-                                        print(uploadRes);
+                                        debugPrint(uploadRes.toString());
 
                                         if (uploadRes["result"] == true) {
                                           var url = uploadRes["url"];
@@ -454,7 +454,7 @@ class NewPostView extends StatelessWidget {
                                           await PostsController.uploadPostMedia(
                                             File(file.path),
                                           );
-                                      print(uploadRes);
+                                      debugPrint(uploadRes.toString());
 
                                       if (uploadRes["result"] == true) {
                                         var url = uploadRes["url"];
@@ -499,7 +499,7 @@ class NewPostView extends StatelessWidget {
                                           await PostsController.uploadPostMedia(
                                             File(file.path),
                                           );
-                                      print(uploadRes);
+                                      debugPrint(uploadRes.toString());
 
                                       if (uploadRes["result"] == true) {
                                         var url = uploadRes["url"];
