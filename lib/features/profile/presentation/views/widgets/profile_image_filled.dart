@@ -6,17 +6,27 @@ class ProfileImageFilled extends StatelessWidget {
   const ProfileImageFilled({
     super.key,
     required this.profileTabProvider,
+    this.post = const {},
     this.height = 100,
     this.width = 100,
   });
 
-  final ProfileTabProvider profileTabProvider;
+  final ProfileTabProvider? profileTabProvider;
+  final Map<String, dynamic> post;
   final double height, width;
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: profileTabProvider.photoUrl,
+      imageUrl:
+          (profileTabProvider?.photoUrl != null &&
+              profileTabProvider!.photoUrl.isNotEmpty)
+          ? profileTabProvider!.photoUrl
+          : (post["user_photo"] ?? ""),
+
+      //  profileTabProvider?.photoUrl == ""
+      //     ? post["user_photo"] ?? ""
+      //     : profileTabProvider?.photoUrl ?? "",
       imageBuilder: (context, imageProvider) => Container(
         width: width,
         height: height,

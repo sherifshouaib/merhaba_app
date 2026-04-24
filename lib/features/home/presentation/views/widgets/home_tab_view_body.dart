@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -74,9 +76,15 @@ class HomeTabViewBody extends StatelessWidget {
           margin: const EdgeInsets.symmetric(vertical: 5),
         ).animate().scale(duration: 1200.ms, alignment: Alignment.centerLeft),
         ...timeLineProvider.posts.map((post) {
+
+          post["parsedContent"] = Map<String, dynamic>.from(
+            jsonDecode(post["content"]) as Map,
+          );
+
+
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: PostWidget(),
+            padding: const EdgeInsets.symmetric(vertical: 1),
+            child: PostWidget(post: post),
           );
         }),
       ],
