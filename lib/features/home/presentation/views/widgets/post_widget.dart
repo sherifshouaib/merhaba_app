@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:merhaba/core/helper/spacing.dart';
 import 'package:merhaba/core/locale/app_locale.dart';
 import 'package:merhaba/core/routing/app_router.dart';
+import 'package:merhaba/core/utils/controllers/post_interactions_controller.dart';
 import 'package:merhaba/core/utils/providers/profile_tab_provider.dart';
 import 'package:merhaba/core/utils/providers/timeline_provider.dart';
 import 'package:merhaba/core/widgets/photo_viewer_screen.dart';
@@ -33,10 +34,51 @@ class _PostWidgetState extends State<PostWidget> {
   CarouselSliderController _controller = CarouselSliderController();
   int currentIndex = 0;
 
-  String selectedReaction = "like";
-
   // final baseUrl =
   //     "https://iopikpwzkhllrxvixygw.supabase.co/storage/v1/object/public/Users/";
+
+  bool isReacted = false;
+  String selectedReaction = "like";
+  List<Map<String, dynamic>> reactions = [];
+  Map<String, dynamic> myReaction = {};
+
+  Future<void> getPostInteractions() async {
+    try {
+      var res = await PostInteractionsController.getPostInteractions(
+        widget.post["id"],
+      );
+
+      if (res["result"] == true) {
+        setState(() {
+          reactions = (res["data"] as List)
+              .map((d) => Map<String, dynamic>.from(d as Map))
+              .toList();
+          if (reactions
+              .where((element) => element["isMine"] == true)
+              .isNotEmpty) {
+            myReaction = reactions.firstWhere(
+              (element) => element["isMine"] == true,
+            );
+
+            selectedReaction = myReaction["react_type"].toString();
+            isReacted = true;
+          }
+        });
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> getData() async {
+    await getPostInteractions();
+  }
+
+  @override
+  initState() {
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -328,30 +370,24 @@ class _PostWidgetState extends State<PostWidget> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          label: Text(
-                            timeLineProvider
-                                .getAvailableReactions(context)
-                                .where(
-                                  (reaction) =>
-                                      reaction["value"] == selectedReaction,
-                                )
-                                .first["text"],
-
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            overflow: TextOverflow.ellipsis,
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 5,
                           ),
-                          icon: ReactionButton<String>(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: isReacted
+                                ? Colors.blueGrey.withOpacity(0.5)
+                                : Colors.transparent,
+                          ),
+                          child: ReactionButton<String>(
                             boxColor: Globals.theme == "Light"
                                 ? Colors.white
                                 : Colors.black,
                             itemSize: Size(30, 30),
 
-                            onReactionChanged: (Reaction<String>? reaction) {
+                            onReactionChanged: (Reaction<String>? reaction) async {
                               //debugPrint('Selected value: ${reaction?.value}');
 
                               if (reaction == null) {
@@ -360,9 +396,28 @@ class _PostWidgetState extends State<PostWidget> {
                               if (reaction.value == null) {
                                 return;
                               }
-                              setState(() {
-                                selectedReaction = reaction!.value!;
-                              });
+
+                              if (isReacted == false) {
+                                setState(() {
+                                  selectedReaction = reaction.value!;
+                                  isReacted = true;
+                                });
+
+                                await PostInteractionsController.addReactionToPost(
+                                  widget.post["id"],
+                                  reaction.value!,
+                                );
+                              } else {
+                                setState(() {
+                                  selectedReaction = reaction.value!;
+                                  isReacted = true;
+                                });
+
+                                await PostInteractionsController.updateReactionToPost(
+                                  myReaction["id"],
+                                  reaction.value!,
+                                );
+                              }
                             },
                             reactions: <Reaction<String>>[
                               ...timeLineProvider
@@ -379,49 +434,61 @@ class _PostWidgetState extends State<PostWidget> {
                                   ),
                             ],
 
-                            selectedReaction: Reaction(
+                            placeholder: Reaction<String>(
                               value: timeLineProvider
                                   .getAvailableReactions(context)
-                                  .where(
-                                    (reaction) =>
-                                        reaction["value"] == selectedReaction,
-                                  )
                                   .first["value"],
                               icon: timeLineProvider
                                   .getAvailableReactions(context)
-                                  .where(
-                                    (reaction) =>
-                                        reaction["value"] == selectedReaction,
-                                  )
                                   .first["icon"],
                               title: Text(
                                 timeLineProvider
                                     .getAvailableReactions(context)
-                                    .where(
-                                      (reaction) =>
-                                          reaction["value"] == selectedReaction,
-                                    )
                                     .first["text"],
                               ),
                             ),
 
-                            // selectedReaction: Reaction<String>(
-                            //   value: 'like',
-                            //   icon: const Icon(fluent.FluentIcons.like),
-                            //   title: Text(
-                            //     AppLocale.like_label.getString(context),
-                            //   ),
-                            // ),
-                          ),
+                            isChecked: isReacted,
+                            child: InkWell(
+                              onTap: () async {
+                                try {
+                                  await PostInteractionsController.removeReactionToPost(
+                                    widget.post["id"],
+                                  );
 
-                          style: ButtonStyle(
-                            elevation: WidgetStatePropertyAll(1),
-                            visualDensity: VisualDensity.compact,
-                            // shape: WidgetStatePropertyAll(
-                            //   RoundedRectangleBorder(
-                            //     borderRadius: BorderRadius.circular(5),
-                            //   ),
-                            // ),
+                                  setState(() {
+                                    isReacted = false;
+                                    myReaction = {};
+                                    selectedReaction = "like";
+                                  });
+                                } catch (e) {
+                                  print(e.toString());
+                                }
+                              },
+                              child: Row(
+                                children: [
+                                  timeLineProvider
+                                      .getAvailableReactions(context)
+                                      .where(
+                                        (reaction) =>
+                                            reaction["value"] ==
+                                            selectedReaction,
+                                      )
+                                      .first["icon"],
+                                  horizontalSpace(5),
+                                  Text(
+                                    timeLineProvider
+                                        .getAvailableReactions(context)
+                                        .where(
+                                          (reaction) =>
+                                              reaction["value"] ==
+                                              selectedReaction,
+                                        )
+                                        .first["text"],
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
 

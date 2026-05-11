@@ -39,6 +39,7 @@ dependencies:
   flutter_reaction_button: ^3.0.0+3
   timeago: ^3.7.1
   photo_view: ^0.15.0
+  google_fonts: ^8.1.0
 
   
 dev_dependencies:
