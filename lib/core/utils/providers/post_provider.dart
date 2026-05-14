@@ -7,6 +7,12 @@ class PostProvider with ChangeNotifier {
   Map<String, dynamic> _currentPost = {};
   Map<String, dynamic> get currentPost => _currentPost;
 
+  final TextEditingController _newCommentController = TextEditingController();
+  TextEditingController get newCommentController => _newCommentController;
+
+  final FocusNode _newCommentFocusNode = FocusNode();
+  FocusNode get newCommentFocusNode => _newCommentFocusNode;
+
   setCurrentPost(Map<String, dynamic> value) {
     _currentPost = value;
     notifyListeners();
@@ -23,10 +29,7 @@ class PostProvider with ChangeNotifier {
   }
 
   Future<void> getComments() async {
-
-    try{
-      
-    }catch(e){
+    try {} catch (e) {
       print(e.toString());
     }
   }
@@ -35,8 +38,7 @@ class PostProvider with ChangeNotifier {
     toggleLoading();
 
     try {
-await getComments();
-
+      await getComments();
     } catch (e) {
       print(e.toString());
     }

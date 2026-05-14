@@ -528,6 +528,15 @@ class _PostWidgetState extends State<PostWidget> {
                                   GoRouter.of(
                                     context,
                                   ).push(AppRouter.kPostView);
+                                } else {
+                                  final postProvider =
+                                      Provider.of<PostProvider>(
+                                        context,
+                                        listen: false,
+                                      );
+
+                                  postProvider.newCommentFocusNode
+                                      .requestFocus();
                                 }
                               },
                               label: Text(
