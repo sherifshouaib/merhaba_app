@@ -18,7 +18,8 @@ class HomeTabView extends StatelessWidget {
         title:
             Text(
                   // AppLocale.home_label.getString(context),
-                  "MERHABA",
+                  //  "MERHABA",
+                  "MAJMAA",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 )
                 .animate(onPlay: (controller) => controller.repeat())

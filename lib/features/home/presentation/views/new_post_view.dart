@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
@@ -126,7 +125,7 @@ class NewPostView extends StatelessWidget {
                   ),
                   verticalSpace(5),
 
-                  Container(
+                  SizedBox(
                     height: 30,
                     child: ListView(
                       shrinkWrap: true,

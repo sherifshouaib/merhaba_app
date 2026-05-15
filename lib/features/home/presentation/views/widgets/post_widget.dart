@@ -13,7 +13,6 @@ import 'package:merhaba/core/utils/controllers/post_interactions_controller.dart
 import 'package:merhaba/core/utils/providers/post_provider.dart';
 import 'package:merhaba/core/utils/providers/profile_tab_provider.dart';
 import 'package:merhaba/core/utils/providers/timeline_provider.dart';
-import 'package:merhaba/core/widgets/photo_viewer_screen.dart';
 import 'package:merhaba/features/profile/presentation/views/widgets/profile_image_empty.dart';
 import 'package:merhaba/main_development.dart';
 import 'package:provider/provider.dart';

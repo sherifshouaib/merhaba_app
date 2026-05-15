@@ -7,7 +7,7 @@ class LogoOnboardingLight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      AssetsUtils.appIconLight,
+      AssetsUtils.appIconDark,
       //  width: ( MediaQuery.sizeOf(context).width - 60) * 0.5,
     );
   }

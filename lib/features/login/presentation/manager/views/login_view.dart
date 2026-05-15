@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
-import 'package:go_router/go_router.dart';
 import 'package:merhaba/core/helper/spacing.dart';
 import 'package:merhaba/core/locale/app_locale.dart';
-import 'package:merhaba/core/routing/app_router.dart';
 import 'package:merhaba/core/utils/controllers/auth_controller.dart';
 import 'package:merhaba/core/utils/funcs/getPostsAndNavigate_method.dart';
 import 'package:merhaba/core/utils/providers/login_provider.dart';
-import 'package:merhaba/core/utils/providers/timeline_provider.dart';
 import 'package:merhaba/core/widgets/custom_info_label.dart';
 import 'package:merhaba/core/widgets/logo_boarding_light.dart';
 import 'package:merhaba/core/widgets/row_log_reg.dart';
@@ -31,94 +28,100 @@ class LoginView extends StatelessWidget {
       textDirection: localization.currentLocale.localeIdentifier == "ar"
           ? TextDirection.rtl
           : TextDirection.ltr,
-      child: Scaffold(
-        body: loginProvider.isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : ListView(
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                children: [
-                  LogoOnboardingLight(),
+      child: SafeArea(
+        child: Scaffold(
+          body: loginProvider.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : ListView(
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  shrinkWrap: true,
+                  physics: ClampingScrollPhysics(),
+                  children: [
+                    LogoOnboardingLight(),
 
-                  verticalSpace(20),
+                    verticalSpace(20),
 
-                  CustomInfoLabel(
-                    funcController: emailController,
-                    label: AppLocale.enter_your_email_label.getString(context),
-                    placeholder: AppLocale.email_label.getString(context),
-                  ),
-                  verticalSpace(15),
-
-                  CustomInfoLabel(
-                    funcController: passController,
-                    label: AppLocale.enter_your_password_label.getString(
-                      context,
+                    CustomInfoLabel(
+                      funcController: emailController,
+                      label: AppLocale.enter_your_email_label.getString(
+                        context,
+                      ),
+                      placeholder: AppLocale.email_label.getString(context),
                     ),
-                    placeholder: AppLocale.password_label.getString(context),
-                    obsecure: true,
-                  ),
+                    verticalSpace(15),
 
-                  verticalSpace(20),
-                  RowLogCreateAcc(
-                    textButton: AppLocale.login_label.getString(context),
-                    onPressed: () async {
-                      if (emailController.text == "") {
-                        Fluttertoast.showToast(msg: "Please enter your email!");
-                        return;
-                      }
+                    CustomInfoLabel(
+                      funcController: passController,
+                      label: AppLocale.enter_your_password_label.getString(
+                        context,
+                      ),
+                      placeholder: AppLocale.password_label.getString(context),
+                      obsecure: true,
+                    ),
 
-                      if (passController.text == "") {
-                        Fluttertoast.showToast(
-                          msg: "Please enter your password!",
-                        );
-                        return;
-                      }
-
-                      loginProvider.toggleLoading();
-
-                      try {
-                        var res = await AuthController.login(
-                          emailController.text,
-                          passController.text,
-                        );
-
-                        if (res["result"] == true) {
-                          getPostsAndNavigateMethod(context);
-
-                          //   final timelineProvider =
-                          //       Provider.of<TimelineProvider>(
-                          //         context,
-                          //         listen: false,
-                          //       );
-                          // await  timelineProvider.getData();
-
-                          //   context.go(AppRouter.kHomeView);
-                        } else {
+                    verticalSpace(20),
+                    RowLogCreateAcc(
+                      textButton: AppLocale.login_label.getString(context),
+                      onPressed: () async {
+                        if (emailController.text == "") {
                           Fluttertoast.showToast(
-                            msg: res["message"].toString(),
+                            msg: "Please enter your email!",
                           );
+                          return;
                         }
-                      } catch (e) {
-                        debugPrint(e.toString());
-                      }
 
-                      loginProvider.toggleLoading();
-                    },
-                  ),
+                        if (passController.text == "") {
+                          Fluttertoast.showToast(
+                            msg: "Please enter your password!",
+                          );
+                          return;
+                        }
 
-                  verticalSpace(10),
+                        loginProvider.toggleLoading();
 
-                  ForgetPasswordButton(),
-                  verticalSpace(10),
+                        try {
+                          var res = await AuthController.login(
+                            emailController.text,
+                            passController.text,
+                          );
 
-                  RowTextButton(
-                    buttonText: AppLocale.create_account_label.getString(
-                      context,
+                          if (res["result"] == true) {
+                            getPostsAndNavigateMethod(context);
+
+                            //   final timelineProvider =
+                            //       Provider.of<TimelineProvider>(
+                            //         context,
+                            //         listen: false,
+                            //       );
+                            // await  timelineProvider.getData();
+
+                            //   context.go(AppRouter.kHomeView);
+                          } else {
+                            Fluttertoast.showToast(
+                              msg: res["message"].toString(),
+                            );
+                          }
+                        } catch (e) {
+                          debugPrint(e.toString());
+                        }
+
+                        loginProvider.toggleLoading();
+                      },
                     ),
-                  ),
-                ],
-              ),
+
+                    verticalSpace(10),
+
+                    ForgetPasswordButton(),
+                    verticalSpace(10),
+
+                    RowTextButton(
+                      buttonText: AppLocale.create_account_label.getString(
+                        context,
+                      ),
+                    ),
+                  ],
+                ),
+        ),
       ),
     );
   }

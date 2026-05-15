@@ -5,9 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:merhaba/core/routing/app_router.dart';
 import 'package:merhaba/core/utils/controllers/auth_controller.dart';
 import 'package:merhaba/core/utils/funcs/getPostsAndNavigate_method.dart';
-import 'package:merhaba/core/utils/providers/timeline_provider.dart';
 import 'package:merhaba/core/widgets/logo_boarding_light.dart';
-import 'package:provider/provider.dart';
 
 class WelcomeView extends StatefulWidget {
   const WelcomeView({super.key});

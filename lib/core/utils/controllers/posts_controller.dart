@@ -47,6 +47,10 @@ class PostsController {
     }
   }
 
+
+
+
+
   static Future<Map<String, dynamic>> addPost(Map<String, dynamic> data) async {
     try {
       var uid = await secureStorage.read(key: "uid");
