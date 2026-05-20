@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:merhaba/core/helper/spacing.dart';
 import 'package:merhaba/core/locale/app_locale.dart';
 import 'package:merhaba/core/routing/app_router.dart';
+import 'package:merhaba/core/utils/controllers/comments_controller.dart';
 import 'package:merhaba/core/utils/controllers/post_interactions_controller.dart';
 import 'package:merhaba/core/utils/providers/post_provider.dart';
 import 'package:merhaba/core/utils/providers/profile_tab_provider.dart';
@@ -49,6 +50,8 @@ class _PostWidgetState extends State<PostWidget> {
   List<Map<String, dynamic>> reactions = [];
   Map<String, dynamic> myReaction = {};
 
+  int commentsCount = 0;
+
   Future<void> getPostInteractions() async {
     try {
       var res = await PostInteractionsController.getPostInteractions(
@@ -73,12 +76,28 @@ class _PostWidgetState extends State<PostWidget> {
         });
       }
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> getCommentsCount() async {
+    try {
+      var res = await CommentsController.getCommentsCountForPost(
+        widget.post["id"],
+      );
+
+      setState(() {
+        commentsCount = res;
+      });
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 
   Future<void> getData() async {
     await getPostInteractions();
+
+    await getCommentsCount();
   }
 
   @override
@@ -371,9 +390,53 @@ class _PostWidgetState extends State<PostWidget> {
                               ],
                             ),
 
-                      verticalSpace(5),
+                      verticalSpace(10),
 
-                      if (widget.showActions) Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width:
+                                (MediaQuery.sizeOf(context).width - 60) * 0.33,
+
+                            child: Text(
+                              "${reactions.length} ${AppLocale.reactions_label.getString(context)}",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(
+                            width:
+                                (MediaQuery.sizeOf(context).width - 60) * 0.33,
+
+                            child: Text(
+                              "$commentsCount ${AppLocale.comments_label.getString(context)}",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(
+                            width:
+                                (MediaQuery.sizeOf(context).width - 60) * 0.33,
+
+                            child: Text(
+                              "0 ${AppLocale.shares_label.getString(context)}",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      //  if (widget.showActions) Divider(),
                       if (widget.showActions) verticalSpace(5),
                       if (widget.showActions)
                         Row(
@@ -471,7 +534,7 @@ class _PostWidgetState extends State<PostWidget> {
                                         selectedReaction = "like";
                                       });
                                     } catch (e) {
-                                      print(e.toString());
+                                      debugPrint(e.toString());
                                     }
                                   },
                                   child: Row(

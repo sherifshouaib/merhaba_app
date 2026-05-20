@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:merhaba/main_development.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -26,7 +27,7 @@ class PostInteractionsController {
       await Supabase.instance.client.from("post_interactions").insert(data);
       return {"result": true, "message": "Saved successfully ..."};
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       return {"result": false, "message": e.toString()};
     }
   }
@@ -50,7 +51,7 @@ class PostInteractionsController {
 
       return {"result": true, "message": "Removed successfully ..."};
     } catch (e) {
-      print(e.toString());
+            debugPrint(e.toString());
       return {"result": false, "message": e.toString()};
     }
   }
@@ -76,7 +77,7 @@ class PostInteractionsController {
 
       return {"result": true, "message": "Removed successfully ..."};
     } catch (e) {
-      print(e.toString());
+            debugPrint(e.toString());
       return {"result": false, "message": e.toString()};
     }
   }
@@ -102,7 +103,7 @@ class PostInteractionsController {
         "data": res,
       };
     } catch (e) {
-      print(e.toString());
+            debugPrint(e.toString());
       return {"result": false, "message": e.toString()};
     }
   }

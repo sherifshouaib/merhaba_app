@@ -219,7 +219,9 @@ class PostView extends StatelessWidget {
                                                               }
                                                             }
                                                           } catch (e) {
-                                                            print(e.toString());
+                                                            debugPrint(
+                                                              e.toString(),
+                                                            );
                                                           }
 
                                                           postProvider
@@ -302,7 +304,9 @@ class PostView extends StatelessWidget {
                                                               }
                                                             }
                                                           } catch (e) {
-                                                            print(e.toString());
+                                                            debugPrint(
+                                                              e.toString(),
+                                                            );
                                                           }
 
                                                           postProvider
@@ -438,7 +442,9 @@ class PostView extends StatelessWidget {
                                                               }
                                                             }
                                                           } catch (e) {
-                                                            print(e.toString());
+                                                            debugPrint(
+                                                              e.toString(),
+                                                            );
                                                           }
 
                                                           postProvider
@@ -519,7 +525,9 @@ class PostView extends StatelessWidget {
                                                               }
                                                             }
                                                           } catch (e) {
-                                                            print(e.toString());
+                                                            debugPrint(
+                                                              e.toString(),
+                                                            );
                                                           }
 
                                                           postProvider

@@ -96,7 +96,7 @@ class PostProvider with ChangeNotifier {
         );
       }
     } catch (e) {
-      print(e.toString());
+            debugPrint(e.toString());
     }
   }
 
@@ -131,7 +131,7 @@ class PostProvider with ChangeNotifier {
         );
       }
     } catch (e) {
-      print(e.toString());
+            debugPrint(e.toString());
     }
   }
 
@@ -166,7 +166,7 @@ class PostProvider with ChangeNotifier {
         );
       }
     } catch (e) {
-      print(e.toString());
+            debugPrint(e.toString());
     }
   }
 
@@ -176,7 +176,7 @@ class PostProvider with ChangeNotifier {
 
       setComments(res);
     } catch (e) {
-      print(e.toString());
+            debugPrint(e.toString());
     }
   }
 
@@ -186,7 +186,7 @@ class PostProvider with ChangeNotifier {
     try {
       await getComments();
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
     toggleLoading();
   }
